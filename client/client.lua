@@ -131,7 +131,7 @@ exports['qb-target']:AddBoxZone('sz-pizzajob:preparepizza', vector3(807.64, -756
             type = 'client',
             event = '',
             icon = 'fas fa-pizza-slice',
-            label = 'Prepare Pizza',
+            label = 'Prepare',
             job = 'pizzathis',
             drawColor = {255, 255, 255, 255},
             successDrawColor = {30, 144, 255, 255},
