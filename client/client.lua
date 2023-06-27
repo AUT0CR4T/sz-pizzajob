@@ -72,12 +72,12 @@ exports['qb-target']:AddBoxZone('sz-pizzajob:makefries', vector3(808.35, -761.21
 })
 
 -- Fridge
-exports['qb-target']:AddBoxZone('sz-pizzajob:openfridge', vector3(805.99, -757.23, 26.78), 1.0, 0.8,{
+exports['qb-target']:AddBoxZone('sz-pizzajob:openfridge', vector3(805.93, -761.68, 26.78), 1.4, 0.2, {
     name = 'sz-pizzajob:openfridge',
-    heading = 41,
+    heading = 0,
     debugPoly = Config.Debug,
-    minZ = 25.78,
-    maxZ = 27.33,
+    minZ = 26.08,
+    maxZ = 28.08,
 }, {
     options = {
         {
