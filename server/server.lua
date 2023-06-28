@@ -11,5 +11,6 @@ RegisterNetEvent('sz-pizzajob:server:makedough', function(data)
         QBCore.Functions.Notify(src, 'Began mixing...', 'primary', 3000)
         Wait(Config.MixerWaitTime * 1000)
         QBCore.Functions.Notify(src, 'Mixer has finished', 'success', 3000)
+        mixerInUse = false
     end
 end)
