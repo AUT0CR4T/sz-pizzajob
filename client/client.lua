@@ -94,9 +94,9 @@ exports['qb-target']:AddBoxZone('sz-pizzajob:openfridge', vector3(805.93, -761.6
     distance = 1,
 })
 
--- Make Doe
-exports['qb-target']:AddBoxZone('sz-pizzajob:makedoe', vector3(805.99, -757.23, 26.78), 1.0, 0.8, {
-    name = 'sz-pizzajob:makedoe',
+-- Make Dough
+exports['qb-target']:AddBoxZone('sz-pizzajob:makedough', vector3(805.99, -757.23, 26.78), 1.0, 0.8, {
+    name = 'sz-pizzajob:makedough',
     heading = 41,
     debugPoly = Config.Debug,
     minZ = 25.78,
@@ -106,9 +106,9 @@ exports['qb-target']:AddBoxZone('sz-pizzajob:makedoe', vector3(805.99, -757.23, 
         {
             num = 1,
             type = 'client',
-            event = '',
+            event = 'sz-pizzajob:client:makedough',
             icon = 'fas fa-power-off',
-            label = 'Make Doe',
+            label = 'Make Dough',
             job = 'pizzathis',
             drawColor = {255, 255, 255, 255},
             successDrawColor = {30, 144, 255, 255},
@@ -141,5 +141,39 @@ exports['qb-target']:AddBoxZone('sz-pizzajob:preparepizza', vector3(807.64, -756
 })
 
 RegisterNetEvent('sz-pizzajob:client:OpenFridge', function()
-    TriggerServerEvent("inventory:server:OpenInventory", "shop", "FridgeItems", Config.FridgeItems)
+    local Player = QBCore.Functions.GetPlayerData()
+    local jobDuty = Player.job.onduty
+    if not jobDuty then
+        QBCore.Functions.Notify('You are not clocked in!', 'error', 3000)
+    else
+        TriggerServerEvent("inventory:server:OpenInventory", "shop", "FridgeItems", Config.FridgeItems)
+    end
+end)
+
+RegisterNetEvent('sz-pizzajob:client:makedough', function()
+    local Player = QBCore.Functions.GetPlayerData()
+    local jobDuty = Player.job.onduty
+    if not jobDuty then
+        QBCore.Functions.Notify('You are not clocked in!', 'error', 3000)
+    else
+        exports['qb-menu']:openMenu({
+            {
+                header = 'Dough Mixer',
+                icon = 'fas fa-cloud',
+                isMenuHeader = true,
+            },
+            {
+                header = 'Make Dough',
+                txt = 'Mix ingredients to make Dough',
+                icon = 'fas fa-cloud',
+                params = {
+                    isServer = true,
+                    event = 'sz-pizzajob:server:makedough',
+                    args = {
+                        item = 'dough'
+                    }
+                }
+            }
+        })
+    end
 end)
