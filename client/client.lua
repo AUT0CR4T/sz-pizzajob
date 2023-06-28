@@ -36,11 +36,11 @@ exports['qb-target']:AddBoxZone('sz-pizzajob:bossmenu', vector3(794.97, -767.02,
     options = {
         {
             num = 1,
-            type = 'server',
-            event = '',
+            type = 'client',
+            event = 'qb-bossmenu:client:OpenMenu',
             icon = 'fas fa-computer',
             label = 'Management',
-            job = 'pizzathis',
+            job = {['pizzathis'] = 4, 5},
             drawColor = {255, 255, 255, 255},
             successDrawColor = {30, 144, 255, 255},
         }
