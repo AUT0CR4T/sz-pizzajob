@@ -2,6 +2,8 @@ Config = {}
 
 Config.Debug = false
 
+Config.MixerWaitTime = 30 -- How long it takes till the mixer has finished mixing -- Time in seconds
+
 Config.FridgeItems = {
     label = 'Fridge',
     slots = 20,
