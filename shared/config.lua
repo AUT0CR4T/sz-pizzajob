@@ -1,6 +1,6 @@
 Config = {}
 
-Config.Debug = false
+Config.Debug = true
 
 Config.MixerWaitTime = 30 -- How long it takes till the mixer has finished mixing -- Time in seconds
 
