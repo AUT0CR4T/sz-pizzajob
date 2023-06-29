@@ -516,25 +516,13 @@ RegisterNetEvent('sz-pizzajob:client:toppingsmenu', function()
                 }
             },
             {
-                header = 'Sliced Meat',
+                header = 'Sliced Jalapenos',
                 icon = 'fas fa-hand-holding',
                 params = {
                     isServer = true,
                     event = 'sz-pizzajob:server:giveitem',
                     args = {
-                        returnItems = {'slicedmeat'},
-                        amount = 1
-                    }
-                }
-            },
-            {
-                header = 'Sliced Onions',
-                icon = 'fas fa-hand-holding',
-                params = {
-                    isServer = true,
-                    event = 'sz-pizzajob:server:giveitem',
-                    args = {
-                        returnItems = {'slicedonions'},
+                        returnItems = {'slicedjalapenos'},
                         amount = 1
                     }
                 }
@@ -581,6 +569,21 @@ RegisterNetEvent('sz-pizzajob:client:makepizza', function()
                         returnItems = {'uncookedcheesepizza'},
                         label = 'Cheese Pizza',
                         removeItems = {'pizzabase', 'gratedcheese'},
+                        amount = 1
+                    }
+                }
+            },
+            {
+                header = 'Jalapeno & Pepperoni Pizza',
+                txt = 'Pizza Base x1, Grated Cheese x1, Pepperoni x1, Sliced Jalapenos x1',
+                icon = 'fas fa-pizza-slice',
+                disabled = hasItems({'pizzabase', 'gratedcheese', 'slicedpepperoni', 'slicedjalapenos'}),
+                params = {
+                    event = 'sz-pizzajob:client:givepizza',
+                    args = {
+                        returnItems = {'uncookedjalapenoandpepperonipizza'},
+                        label = 'Cheese Pizza',
+                        removeItems = {'pizzabase', 'gratedcheese', 'slicedpepperoni', 'slicedjalapenos'},
                         amount = 1
                     }
                 }
@@ -640,6 +643,20 @@ RegisterNetEvent('sz-pizzajob:client:ovenmenu', function()
                     args = {
                         returnItems = {'cheesepizza'},
                         removeItems = {'uncookedcheesepizza'},
+                        amount = 1
+                    }
+                }
+            },
+            {
+                header = 'Jalapeno & Pepperoni Pizza',
+                txt = 'Uncooked Jalapeno & Pepperoni Pizza x1',
+                icon = 'fas fa-pizza-slice',
+                disabled = hasItems({'uncookedjalapenoandpepperonipizza'}),
+                params = {
+                    event = 'sz-pizzajob:client:useoven',
+                    args = {
+                        returnItems = {'jalapenoandpepperonipizza'},
+                        removeItems = {'uncookedjalapenoandpepperonipizza'},
                         amount = 1
                     }
                 }
@@ -703,6 +720,21 @@ RegisterNetEvent('sz-pizzajob:client:boxpizzamenu', function(args)
                         removeItems = {'cheesepizza'},
                         returnItems = {'cheesepizzabox'},
                         label = 'Cheese Pizza',
+                        amount = 1
+                    }
+                }
+            },
+            {
+                header = 'Jalapeno & Pepperoni Pizza',
+                txt = 'Jalapeno & Pepperoni Pizza x1',
+                icon = 'fas fa-pizza-slice',
+                disabled = hasItems({'jalapenoandpepperonipizza'}),
+                params = {
+                    event = 'sz-pizzajob:client:boxpizza',
+                    args = {
+                        removeItems = {'jalapenoandpepperonipizza'},
+                        returnItems = {'jalapenoandpepperonipizzabox'},
+                        label = 'Jalapeno & Pepperoni Pizza',
                         amount = 1
                     }
                 }

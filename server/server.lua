@@ -93,10 +93,22 @@ QBCore.Functions.CreateUseableItem('cheesepizzabox', function(source, item)
     TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['cheesepizzaslice'], 'add', 6)
 end)
 
+QBCore.Functions.CreateUseableItem('jalapenoandpepperonipizzabox', function(source, item)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    Player.Functions.RemoveItem('jalapenoandpepperonipizzabox', 1)
+    Player.Functions.AddItem('jalapenoandpepperonipizzaslice', 6)
+    TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['jalapenoandpepperonipizzaslice'], 'add', 6)
+end)
+
 QBCore.Functions.CreateUseableItem('pepperonipizzaslice', function(source, item)
     TriggerClientEvent('sz-pizzajob:client:eat', source, item.name, 'Eating Pepperoni Pizza Slice', math.random(5000, 10000), math.random(40, 60), 'pizzas5')
 end)
 
 QBCore.Functions.CreateUseableItem('cheesepizzaslice', function(source, item)
     TriggerClientEvent('sz-pizzajob:client:eat', source, item.name, 'Eating Cheese Pizza Slice', math.random(5000, 10000), math.random(40, 60), 'pizzas4')
+end)
+
+QBCore.Functions.CreateUseableItem('jalapenoandpepperonipizzaslice', function(source, item)
+    TriggerClientEvent('sz-pizzajob:client:eat', source, item.name, 'Eating Jalapeno & Pepperoni Pizza Slice', math.random(5000, 10000), math.random(40, 60), 'pizzas')
 end)
