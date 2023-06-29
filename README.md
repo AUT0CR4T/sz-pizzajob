@@ -14,6 +14,7 @@ rpemotes https://github.com/qbcore-framework/rpemotes
 
 Drag and drop sz-pizzajob into your resources folder. Ensure it in your cfg after [qb]
 Should look something like this.
+
 ensure qb-core
 ensure [qb]
 ensure [standalone]
