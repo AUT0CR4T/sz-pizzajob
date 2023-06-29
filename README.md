@@ -1,6 +1,6 @@
 # sz-pizzajob
 
-Pizza Job For The Gabz pizzeria MLO (QBCore)
+Pizza job for fhe Gabz Pizzeria MLO (QBCore)
 
 # Dependencies
 
