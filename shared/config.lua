@@ -11,7 +11,8 @@ Config.FridgeItems = {
         [1] = {name = 'butter', price = 0, amount = 50, info = {}, type = 'item', slot = 1},
         [2] = {name = 'flour', price = 0, amount = 50, info = {}, type = 'item', slot = 2},
         [3] = {name = 'milk', price = 0, amount = 50, info = {}, type = 'item', slot = 3},
-        [4] = {name = 'salt', price = 0, amount = 50, info = {}, type = 'item', slot = 4}
+        [4] = {name = 'salt', price = 0, amount = 50, info = {}, type = 'item', slot = 4},
+        [5] = {name = 'tomatosauce', price = 0, amount = 50, info = {}, type = 'item', slot = 5}
     }
 }
 
