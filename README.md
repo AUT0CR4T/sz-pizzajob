@@ -22,10 +22,10 @@ ensure [standalone]
 ensure [voice]
 ensure [defaultmaps]
 ensure [clothing]
-```
 
 -- Other scripts go here if you want
 ensure sz-pizzajob
+```
 
 Make sure all dependencies are installed otherwise this script will not run
 
