@@ -22,6 +22,8 @@ ensure [clothing]
 -- Other scripts go here if you want
 ensure sz-pizzajob
 
+Drag all images from assets/images into yout inventory resource
+
 Make sure all dependencies are installed otherwise this script will not run
 
 # Credit
