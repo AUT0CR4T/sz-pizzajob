@@ -32,6 +32,7 @@ Make sure all dependencies are installed otherwise this script will not run
 # Credit
 
 oosayeroo - For helping with custom items
+
 https://oosayeroo-scripts.tebex.io/
 
 https://github.com/oosayeroo
