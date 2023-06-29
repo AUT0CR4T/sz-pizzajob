@@ -337,6 +337,29 @@ exports['qb-target']:AddBoxZone('sz-pizzajob:makepizza', vector3(811.42, -754.56
     distance = 1,
 })
 
+-- Box Pizza
+exports['qb-target']:AddBoxZone('sz-pizzajob:boxpizza', vector3(811.27, -753.67, 26.78), 3.2, 1, {
+    name = 'sz-pizzajob:boxpizza',
+    heading = 0,
+    debugPoly = Config.Debug,
+    minZ = 22.63,
+    maxZ = 26.63,
+}, {
+    options = {
+        {
+            num = 1,
+            type = 'client',
+            event = 'sz-pizzajob:client:boxpizzamenu',
+            icon = 'fas fa-box',
+            label = 'Box Pizza',
+            job = 'pizzathis',
+            drawColor = {255, 255, 255, 255},
+            successDrawColor = {30, 144, 255, 255},
+        }
+    },
+    distance = 1,
+})
+
 -- Events
 -- Make Dough
 RegisterNetEvent('sz-pizzajob:client:makedough', function()

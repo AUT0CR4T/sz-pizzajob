@@ -84,7 +84,7 @@ RegisterNetEvent('sz-pizzajob:server:addHunger', function(amount)
     TriggerClientEvent('hud:client:UpdateNeeds', source, addhunger, Player.PlayerData.metadata.hunger)
 end)
 
-RegisterNetEvent('sz-pizzajob:server:givepizzabase', function(item, amount)
+RegisterNetEvent('sz-pizzajob:server:givepizzabase', function(item, amount) -- Move to new add item event
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     Player.Functions.AddItem(item, amount)
@@ -117,7 +117,23 @@ QBCore.Functions.CreateUseableItem('pizzabox', function(source, item)
     local Player = QBCore.Functions.GetPlayer(src)
     Player.Functions.RemoveItem('pizzabox', 1)
     Player.Functions.AddItem('pizzaslice', 6)
-    TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['pizzaslice'], 'remove', 6)
+    TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['pizzaslice'], 'add', 6)
+end)
+
+-- QBCore.Functions.CreateUseableItem('cheesepizzabox', function(source, item)
+--     local src = source
+--     local Player = QBCore.Functions.GetPlayer(src)
+--     Player.Functions.RemoveItem('pizzabox', 1)
+--     Player.Functions.AddItem('', 6)
+--     TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['cheesepizzabox'], 'add', 6)
+-- end)
+
+QBCore.Functions.CreateUseableItem('pepperonipizzabox', function(source, item)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    Player.Functions.RemoveItem('pizzabox', 1)
+    Player.Functions.AddItem('pepperonipizzaslice', 6)
+    TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['pepperonipizzaslice'], 'add', 6)
 end)
 
 QBCore.Functions.CreateUseableItem('pizzaslice', function(source, item)

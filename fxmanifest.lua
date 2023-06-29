@@ -13,11 +13,14 @@ server_scripts {
     'server/server.lua'
 }
 
+dependencies {
+    'qb-target',
+    'qb-menu',
+    'rpemotes'
+}
+
 shared_scripts {
     'shared/config.lua'
 }
 
 lua54 'yes'
-
--- Dependent
--- rpemotes
