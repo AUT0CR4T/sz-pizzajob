@@ -8,6 +8,8 @@ qb-target https://github.com/qbcore-framework/qb-target
 
 qb-menu https://github.com/qbcore-framework/qb-menu
 
+jim-payments https://github.com/jimathy/jim-payments
+
 rpemotes https://github.com/qbcore-framework/rpemotes
 
 # Installation
@@ -27,7 +29,7 @@ ensure [clothing]
 ensure sz-pizzajob
 ```
 
-Drag all images from assets/images into yout inventory resource
+Drag all images from assets/images into your inventory resource
 
 Make sure all dependencies are installed otherwise this script will not run
 

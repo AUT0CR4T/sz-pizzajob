@@ -14,7 +14,7 @@ end
 
 function QBCore.Functions.Progressbar(name, label, duration, useWhileDead, canCancel, disableControls, animation, prop, propTwo, onFinish, onCancel) --not sure what this is here for unless youre trying to create a global progressbar
     exports['progressbar']:Progress({
-        name = name:lower(),
+        name = label:lower(),
         duration = duration,
         label = label,
         useWhileDead = useWhileDead,
@@ -94,8 +94,8 @@ exports['qb-target']:AddBoxZone('sz-pizzajob:makefries', vector3(808.35, -761.21
     options = {
         {
             num = 1,
-            type = 'server',
-            event = '',
+            type = 'client',
+            event = 'sz-pizzajob:client:friesmenu',
             icon = 'fas fa-utensils',
             label = 'Make Fries',
             job = 'pizzathis',
@@ -191,29 +191,6 @@ exports['qb-target']:AddBoxZone('sz-pizzajob:makepizzabase', vector3(807.64, -75
             event = 'sz-pizzajob:client:makepizzabasemenu',
             icon = 'fas fa-pizza-slice',
             label = 'Make Pizza Base',
-            job = 'pizzathis',
-            drawColor = {255, 255, 255, 255},
-            successDrawColor = {30, 144, 255, 255},
-        }
-    },
-    distance = 1,
-})
-
--- Make Fries
-exports['qb-target']:AddBoxZone('sz-pizzajob:makefries', vector3(808.35, -761.19, 26.78), 0.7, 0.6, {
-    name = 'sz-pizzajob:makefries',
-    heading = 0,
-    debugPoly = Config.Debug,
-    minZ = 26.58,
-    maxZ = 26.78,
-}, {
-    options = {
-        {
-            num = 1,
-            type = 'client',
-            event = 'sz-pizzajob:client:makefries',
-            icon = 'fas fa-utensils',
-            label = 'Make Fries',
             job = 'pizzathis',
             drawColor = {255, 255, 255, 255},
             successDrawColor = {30, 144, 255, 255},
@@ -360,6 +337,29 @@ exports['qb-target']:AddBoxZone('sz-pizzajob:boxpizza', vector3(811.27, -753.67,
     distance = 1,
 })
 
+-- Make Wine
+exports['qb-target']:AddBoxZone('sz-pizzajob:makewine', vector3(813.99, -749.35, 26.78), 0.9, 0.4, {
+    name = 'sz-pizzajob:makewine',
+    heading = 0,
+    debugPoly = Config.Debug,
+    minZ = 26.93,
+    maxZ = 27.53,
+}, {
+    options = {
+        {
+            num = 1,
+            type = 'client',
+            event = 'sz-pizzajob:client:makewine',
+            icon = 'fas fa-wine-glass',
+            label = 'Pour Wine',
+            job = 'pizzathis',
+            drawColor = {255, 255, 255, 255},
+            successDrawColor = {30, 144, 255, 255},
+        }
+    },
+    distance = 1.3,
+})
+
 -- Events
 -- Make Dough
 RegisterNetEvent('sz-pizzajob:client:makedough', function()
@@ -391,36 +391,6 @@ RegisterNetEvent('sz-pizzajob:client:makedough', function()
     end
 end)
 
--- Make Fries
-RegisterNetEvent('sz-pizzajob:client:makefries', function()
-    local Player = QBCore.Functions.GetPlayerData()
-    local jobDuty = Player.job.onduty
-    if not jobDuty then
-        QBCore.Functions.Notify('You are not clocked in!', 'error', 3000)
-    else
-        exports['qb-menu']:openMenu({
-            {
-                header = 'Make Fries',
-                icon = 'fas fa-utensils',
-                isMenuHeader = true,
-            },
-            {
-                header = 'Make Fries',
-                txt = 'potato x1',
-                icon = 'fas fa-utensils',
-                disabled = hasItems({'potato'}),
-                params = {
-                    isServer = true,
-                    event = '',
-                    args = {
-                        returnItem = 'fries'
-                    }
-                }
-            }
-        })
-    end
-end)
-
 -- Make Pizza Base
 RegisterNetEvent('sz-pizzajob:client:makepizzabasemenu', function()
     local Player = QBCore.Functions.GetPlayerData()
@@ -435,19 +405,36 @@ RegisterNetEvent('sz-pizzajob:client:makepizzabasemenu', function()
                 isMenuHeader = true,
             },
             {
-                header = 'Make Pizza Base',
+                header = 'Pizza Base',
                 txt = 'Dough x1, Tomato Sauce x1',
                 icon = 'fas fa-pizza-slice',
                 disabled = hasItems({'dough', 'tomatosauce'}),
                 params = {
                     event = 'sz-pizzajob:client:makepizzabase',
                     args = {
-                        returnItem = 'pizzabase',
+                        returnItems = {'pizzabase'},
+                        removeItems = {'tomatosauce', 'dough'},
+                        amount = 1
                     }
                 }
             }
         })
     end
+end)
+
+RegisterNetEvent('sz-pizzajob:client:makepizzabase', function(args)
+    QBCore.Functions.Progressbar('make_base', 'Making Pizza Base', 10000, false, true, {
+        TriggerEvent('animations:client:EmoteCommandStart', {'cpr2'}),
+        disableMovement = true,
+        disableMouse = false, 
+        disableCombat = true
+    }, {}, {}, {}, function()
+        TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+        TriggerServerEvent('sz-pizzajob:server:removeitem', args)
+        TriggerServerEvent('sz-pizzajob:server:giveitem', args)
+    end, function ()
+        TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+    end)
 end)
 
 RegisterNetEvent('sz-pizzajob:client:washhands', function()
@@ -471,7 +458,7 @@ RegisterNetEvent('sz-pizzajob:client:eat', function(item, label, duration, amoun
         disableCombat = false
     }, {}, {}, {}, function()
         TriggerEvent('animations:client:EmoteCommandStart', {"c"})
-        TriggerServerEvent('sz-pizzajob:server:removeitem', item, 1)
+        TriggerServerEvent('sz-pizzajob:server:removeeatitem', item, 1)
         TriggerServerEvent('sz-pizzajob:server:addHunger', 40)
     end, function ()
         TriggerEvent('animations:client:EmoteCommandStart', {"c"})
@@ -492,22 +479,6 @@ RegisterNetEvent('sz-pizzajob:client:OpenStaffFridge', function()
     TriggerServerEvent("inventory:server:OpenInventory", "shop", "StaffFridgeItems", Config.StaffFridgeItems)
 end)
 
-RegisterNetEvent('sz-pizzajob:client:makepizzabase', function()
-    QBCore.Functions.Progressbar('make_base', 'Making Pizza Base', 10000, false, true, {
-        TriggerEvent('animations:client:EmoteCommandStart', {'cpr2'}),
-        disableMovement = true,
-        disableMouse = false, 
-        disableCombat = true
-    }, {}, {}, {}, function()
-        TriggerEvent('animations:client:EmoteCommandStart', {"c"})
-        TriggerServerEvent('sz-pizzajob:server:removeitem', 'tomatosauce', 1)
-        TriggerServerEvent('sz-pizzajob:server:removeitem', 'dough', 1)
-        TriggerServerEvent('sz-pizzajob:server:givepizzabase', 'pizzabase', 1)
-    end, function ()
-        TriggerEvent('animations:client:EmoteCommandStart', {"c"})
-    end)
-end)
-
 RegisterNetEvent('sz-pizzajob:client:toppingsmenu', function()
     local Player = QBCore.Functions.GetPlayerData()
     local jobDuty = Player.job.onduty
@@ -525,9 +496,9 @@ RegisterNetEvent('sz-pizzajob:client:toppingsmenu', function()
                 icon = 'fas fa-hand-holding',
                 params = {
                     isServer = true,
-                    event = 'sz-pizzajob:server:givetopping',
+                    event = 'sz-pizzajob:server:giveitem',
                     args = {
-                        returnItem = 'gratedcheese',
+                        returnItems = {'gratedcheese'},
                         amount = 1
                     }
                 }
@@ -537,9 +508,9 @@ RegisterNetEvent('sz-pizzajob:client:toppingsmenu', function()
                 icon = 'fas fa-hand-holding',
                 params = {
                     isServer = true,
-                    event = 'sz-pizzajob:server:givetopping',
+                    event = 'sz-pizzajob:server:giveitem',
                     args = {
-                        returnItem = 'slicedpepperoni',
+                        returnItems = {'slicedpepperoni'},
                         amount = 1
                     }
                 }
@@ -549,9 +520,9 @@ RegisterNetEvent('sz-pizzajob:client:toppingsmenu', function()
                 icon = 'fas fa-hand-holding',
                 params = {
                     isServer = true,
-                    event = 'sz-pizzajob:server:givetopping',
+                    event = 'sz-pizzajob:server:giveitem',
                     args = {
-                        returnItem = 'slicedmeat',
+                        returnItems = {'slicedmeat'},
                         amount = 1
                     }
                 }
@@ -561,9 +532,9 @@ RegisterNetEvent('sz-pizzajob:client:toppingsmenu', function()
                 icon = 'fas fa-hand-holding',
                 params = {
                     isServer = true,
-                    event = 'sz-pizzajob:server:givetopping',
+                    event = 'sz-pizzajob:server:giveitem',
                     args = {
-                        returnItem = 'slicedonions',
+                        returnItems = {'slicedonions'},
                         amount = 1
                     }
                 }
@@ -592,8 +563,24 @@ RegisterNetEvent('sz-pizzajob:client:makepizza', function()
                 params = {
                     event = 'sz-pizzajob:client:givepizza',
                     args = {
-                        returnItem = 'uncookedpepperonipizza',
-                        name = 'Pepperoni Pizza',
+                        returnItems = {'uncookedpepperonipizza'},
+                        label = 'Pepperoni Pizza',
+                        removeItems = {'pizzabase', 'gratedcheese', 'slicedpepperoni'},
+                        amount = 1
+                    }
+                }
+            },
+            {
+                header = 'Cheese Pizza',
+                txt = 'Pizza Base x1, Grated Cheese x1',
+                icon = 'fas fa-pizza-slice',
+                disabled = hasItems({'pizzabase', 'gratedcheese'}),
+                params = {
+                    event = 'sz-pizzajob:client:givepizza',
+                    args = {
+                        returnItems = {'uncookedcheesepizza'},
+                        label = 'Cheese Pizza',
+                        removeItems = {'pizzabase', 'gratedcheese'},
                         amount = 1
                     }
                 }
@@ -603,14 +590,15 @@ RegisterNetEvent('sz-pizzajob:client:makepizza', function()
 end)
 
 RegisterNetEvent('sz-pizzajob:client:givepizza', function(args)
-    QBCore.Functions.Progressbar(args.returnItem, 'Preparing ' .. args.name, math.random(5000, 10000), false, true, {
+    QBCore.Functions.Progressbar('preparingpizza', 'Preparing ' .. args.label, math.random(5000, 10000), false, true, {
         TriggerEvent('animations:client:EmoteCommandStart', {'cpr2'}),
         disableMovement = true,
         disableMouse = false, 
         disableCombat = true
     }, {}, {}, {}, function()
         TriggerEvent('animations:client:EmoteCommandStart', {"c"})
-        TriggerServerEvent('sz-pizzajob:server:givepizza', args)
+        TriggerServerEvent('sz-pizzajob:server:removeitem', args)
+        TriggerServerEvent('sz-pizzajob:server:giveitem', args)
     end, function ()
         TriggerEvent('animations:client:EmoteCommandStart', {"c"})
     end)
@@ -636,8 +624,22 @@ RegisterNetEvent('sz-pizzajob:client:ovenmenu', function()
                 params = {
                     event = 'sz-pizzajob:client:useoven',
                     args = {
-                        item = 'uncookedpepperonipizza',
-                        returnItem = 'pepperonipizza',
+                        returnItems = {'pepperonipizza'},
+                        removeItems = {'uncookedpepperonipizza'},
+                        amount = 1
+                    }
+                }
+            },
+            {
+                header = 'Cheese Pizza',
+                txt = 'Uncooked Cheese Pizza x1',
+                icon = 'fas fa-pizza-slice',
+                disabled = hasItems({'uncookedcheesepizza'}),
+                params = {
+                    event = 'sz-pizzajob:client:useoven',
+                    args = {
+                        returnItems = {'cheesepizza'},
+                        removeItems = {'uncookedcheesepizza'},
                         amount = 1
                     }
                 }
@@ -651,11 +653,89 @@ RegisterNetEvent('sz-pizzajob:client:useoven', function(args)
         QBCore.Functions.Notify('You have already got pizza cooking', 'error', 3000)
     else
         overInUse = true
-        TriggerServerEvent('sz-pizzajob:server:removeitem', args.item, 1)
+        TriggerEvent('animations:client:EmoteCommandStart', {'handshake'})
+        Wait(2000)
+        TriggerEvent('animations:client:EmoteCommandStart', {'c'})
+        TriggerServerEvent('sz-pizzajob:server:removeitem', args)
         QBCore.Functions.Notify('Cooking Pizza', 'primary', 3000)
         Wait(Config.OvenWaitTime * 1000)
         QBCore.Functions.Notify('Pizza is ready!', 'success', 3000)
-        TriggerServerEvent('sz-pizzajob:server:useoven', args)
+        TriggerServerEvent('sz-pizzajob:server:giveitem', args)
         overInUse = false
     end
+end)
+
+RegisterNetEvent('sz-pizzajob:client:boxpizzamenu', function(args)
+    local Player = QBCore.Functions.GetPlayerData()
+    local jobDuty = Player.job.onduty
+    if not jobDuty then
+        QBCore.Functions.Notify('You are not clocked in!', 'error', 3000)
+    else
+        exports['qb-menu']:openMenu({
+            {
+                header = 'Box Pizza',
+                icon = 'fas fa-box',
+                isMenuHeader = true,
+            },
+            {
+                header = 'Pepperoni Pizza',
+                txt = 'Pepperoni Pizza x1',
+                icon = 'fas fa-pizza-slice',
+                disabled = hasItems({'pepperonipizza'}),
+                params = {
+                    event = 'sz-pizzajob:client:boxpizza',
+                    args = {
+                        removeItems = {'pepperonipizza'},
+                        returnItems = {'pepperonipizzabox'},
+                        label = 'Pepperoni Pizza',
+                        amount = 1
+                    }
+                }
+            },
+            {
+                header = 'Cheese Pizza',
+                txt = 'Cheese Pizza x1',
+                icon = 'fas fa-pizza-slice',
+                disabled = hasItems({'cheesepizza'}),
+                params = {
+                    event = 'sz-pizzajob:client:boxpizza',
+                    args = {
+                        removeItems = {'cheesepizza'},
+                        returnItems = {'cheesepizzabox'},
+                        label = 'Cheese Pizza',
+                        amount = 1
+                    }
+                }
+            }
+        })
+    end
+end)
+
+RegisterNetEvent('sz-pizzajob:client:boxpizza', function(args)
+    QBCore.Functions.Progressbar(args.returnItem, 'Collecting Pizza Box ', 5000, false, true, {
+        TriggerEvent('animations:client:EmoteCommandStart', {'inspect'}),
+        disableMovement = true,
+        disableMouse = false, 
+        disableCombat = true
+    }, {}, {}, {}, function()
+        TriggerEvent('animations:client:EmoteCommandStart', {'carrypizza'})
+        Wait(500)
+        TriggerEvent('animations:client:EmoteCommandStart', {'c'})
+        QBCore.Functions.Progressbar(args.returnItem, 'Boxing ' .. args.label, 4000, false, true, {
+            TriggerEvent('animations:client:EmoteCommandStart', {'pull'}),
+            disableMovement = true,
+            disableMouse = false, 
+            disableCombat = true
+        }, {}, {}, {}, function()
+            TriggerEvent('animations:client:EmoteCommandStart', {'carrypizza'})
+            Wait(500)
+            TriggerEvent('animations:client:EmoteCommandStart', {'c'})
+            TriggerServerEvent('sz-pizzajob:server:giveitem', args)
+            TriggerServerEvent('sz-pizzajob:server:removeitem', args)
+        end, function ()
+            TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+        end)
+    end, function ()
+        TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+    end)
 end)
