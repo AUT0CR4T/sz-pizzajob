@@ -18,3 +18,6 @@ shared_scripts {
 }
 
 lua54 'yes'
+
+-- Dependent
+-- rpemotes
