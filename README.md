@@ -2,7 +2,7 @@
 
 Pizza Job For The Gabz pizzeria MLO (QBCore)
 
-# #Dependencies
+# Dependencies
 
 qb-target https://github.com/qbcore-framework/qb-target
 qb-menu https://github.com/qbcore-framework/qb-menu
@@ -32,3 +32,6 @@ https://oosayeroo-scripts.tebex.io/
 https://github.com/oosayeroo
 
 # Support
+
+Just made a discord server for any support for my future scripts
+https://discord.gg/tPrpmEwnCt
