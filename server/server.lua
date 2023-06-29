@@ -31,16 +31,22 @@ end)
 
 RegisterNetEvent('sz-pizzajob:server:addHunger', function(amount)
     local Player = QBCore.Functions.GetPlayer(source)
-    local hunger = Player.PlayerData.metadata["hunger"]
-    local addhunger = hunger + amount
-    if addhunger > 100 then
-        addhunger = 100
-    end
+
+    local addHunger = Player.PlayerData.metadata['hunger'] + amount
 
     if not Player then return end
 
-    Player.Functions.SetMetaData('hunger', addhunger)
-    TriggerClientEvent('hud:client:UpdateNeeds', source, addhunger, Player.PlayerData.metadata.hunger)
+    Player.Functions.SetMetaData('hunger', addHunger)
+    TriggerClientEvent('hud:client:UpdateNeeds', source, Player.PlayerData.metadata.hunger, addHunger)
+end)
+
+RegisterNetEvent('sz-pizzajob:server:addThirst', function(amount)
+    local Player = QBCore.Functions.GetPlayer(source)
+
+    if not Player then return end
+
+    Player.Functions.SetMetaData('thirst', amount)
+    TriggerClientEvent('hud:client:UpdateNeeds', source, Player.PlayerData.metadata.thirst, amount)
 end)
 
 RegisterNetEvent('sz-pizzajob:server:giveitem', function(data)
@@ -111,4 +117,8 @@ end)
 
 QBCore.Functions.CreateUseableItem('jalapenoandpepperonipizzaslice', function(source, item)
     TriggerClientEvent('sz-pizzajob:client:eat', source, item.name, 'Eating Jalapeno & Pepperoni Pizza Slice', math.random(5000, 10000), math.random(40, 60), 'pizzas')
+end)
+
+QBCore.Functions.CreateUseableItem('wine', function(source, item)
+    TriggerClientEvent('sz-pizzajob:client:drink', source, item.name, 'Drinking Wine', math.random(5000, 10000), math.random(40, 60), 'wine')
 end)

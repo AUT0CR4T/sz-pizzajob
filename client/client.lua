@@ -351,13 +351,103 @@ exports['qb-target']:AddBoxZone('sz-pizzajob:makewine', vector3(813.99, -749.35,
             type = 'client',
             event = 'sz-pizzajob:client:makewine',
             icon = 'fas fa-wine-glass',
-            label = 'Pour Wine',
+            label = 'Pour PizzaThis Special Wine',
             job = 'pizzathis',
             drawColor = {255, 255, 255, 255},
             successDrawColor = {30, 144, 255, 255},
         }
     },
     distance = 1.3,
+})
+
+-- Cuboard
+exports['qb-target']:AddBoxZone('sz-pizzajob:cuboard', vector3(806.04, -764.87, 26.78), 1.4, 0.2, {
+    name = 'sz-pizzajob:cuboard',
+    heading = 0,
+    debugPoly = Config.Debug,
+    minZ = 25.68,
+    maxZ = 28.08,
+}, {
+    options = {
+        {
+            num = 1,
+            type = 'client',
+            event = 'sz-pizzajob:client:OpenCuboard',
+            icon = 'fas fa-door-open',
+            label = 'Open Cuboard',
+            job = 'pizzathis',
+            drawColor = {255, 255, 255, 255},
+            successDrawColor = {30, 144, 255, 255},
+        }
+    },
+    distance = 1,
+})
+
+-- Cold Drinks
+exports['qb-target']:AddBoxZone('sz-pizzajob:colddrinks', vector3(811.48, -765.2, 26.78), 0.75, 0.5, {
+    name = 'sz-pizzajob:cuboard',
+    heading = 359,
+    debugPoly = Config.Debug,
+    minZ = 26.53,
+    maxZ = 27.23,
+}, {
+    options = {
+        {
+            num = 1,
+            type = 'client',
+            event = 'sz-pizzajob:client:OpenColdDrink',
+            icon = 'fas fa-snowflake',
+            label = 'Cold Drinks',
+            job = 'pizzathis',
+            drawColor = {255, 255, 255, 255},
+            successDrawColor = {30, 144, 255, 255},
+        }
+    },
+    distance = 1.5,
+})
+
+-- Till 1
+exports['qb-target']:AddBoxZone('sz-pizzajob:till1', vector3(811.3, -751.99, 26.78), 0.55, 0.3, {
+    name = 'sz-pizzajob:till1',
+    heading = 0,
+    debugPoly = Config.Debug,
+    minZ = 26.63,
+    maxZ = 27.03,
+}, {
+    options = {
+        {
+            event = 'jim-payments:client:Charge',
+            icon = 'fas fa-credit-card',
+            label = 'Charge Customer',
+            job = 'pizzathis',
+            img = nil,
+            drawColor = {255, 255, 255, 255},
+            successDrawColor = {30, 144, 255, 255},
+        }
+    },
+    distance = 1.5,
+})
+
+-- Till 2
+exports['qb-target']:AddBoxZone('sz-pizzajob:till2', vector3(811.29, -750.66, 26.78), 0.55, 0.3, {
+    name = 'sz-pizzajob:till2',
+    heading = 0,
+    debugPoly = Config.Debug,
+    minZ = 26.63,
+    maxZ = 27.03,
+}, {
+    options = {
+        {
+            event = 'jim-payments:client:Charge',
+            icon = 'fas fa-credit-card',
+            label = 'Charge Customer',
+            job = 'pizzathis',
+            img = nil,
+            drawColor = {255, 255, 255, 255},
+            successDrawColor = {30, 144, 255, 255},
+        }
+    },
+    distance = 1.5,
 })
 
 -- Events
@@ -388,6 +478,30 @@ RegisterNetEvent('sz-pizzajob:client:makedough', function()
                 }
             }
         })
+    end
+end)
+
+-- Make Wine
+RegisterNetEvent('sz-pizzajob:client:makewine', function()
+    local Player = QBCore.Functions.GetPlayerData()
+    local jobDuty = Player.job.onduty
+    if not jobDuty then
+        QBCore.Functions.Notify('You are not clocked in!', 'error', 3000)
+    else
+        local args = {
+            returnItems = {'wine'}
+        }
+        QBCore.Functions.Progressbar('make_wine', 'Pouring Wine...', math.random(3000, 5000), false, true, {
+            TriggerEvent('animations:client:EmoteCommandStart', {'handshake'}),
+            disableMovement = true,
+            disableMouse = false, 
+            disableCombat = true
+        }, {}, {}, {}, function()
+            TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+            TriggerServerEvent('sz-pizzajob:server:giveitem', args)
+        end, function ()
+            TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+        end)
     end
 end)
 
@@ -459,7 +573,22 @@ RegisterNetEvent('sz-pizzajob:client:eat', function(item, label, duration, amoun
     }, {}, {}, {}, function()
         TriggerEvent('animations:client:EmoteCommandStart', {"c"})
         TriggerServerEvent('sz-pizzajob:server:removeeatitem', item, 1)
-        TriggerServerEvent('sz-pizzajob:server:addHunger', 40)
+        TriggerServerEvent('sz-pizzajob:server:addHunger', amount)
+    end, function ()
+        TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+    end)
+end)
+
+RegisterNetEvent('sz-pizzajob:client:drink', function(item, label, duration, amount, emote)
+    QBCore.Functions.Progressbar(item, label, duration, false, true, {
+        TriggerEvent('animations:client:EmoteCommandStart', {emote}),
+        disableMovement = false,
+        disableMouse = false, 
+        disableCombat = false
+    }, {}, {}, {}, function()
+        TriggerEvent('animations:client:EmoteCommandStart', {"c"})
+        TriggerServerEvent('sz-pizzajob:server:removeeatitem', item, 1)
+        TriggerServerEvent('sz-pizzajob:server:addThirst', amount)
     end, function ()
         TriggerEvent('animations:client:EmoteCommandStart', {"c"})
     end)
@@ -472,6 +601,26 @@ RegisterNetEvent('sz-pizzajob:client:OpenFridge', function()
         QBCore.Functions.Notify('You are not clocked in!', 'error', 3000)
     else
         TriggerServerEvent("inventory:server:OpenInventory", "shop", "FridgeItems", Config.FridgeItems)
+    end
+end)
+
+RegisterNetEvent('sz-pizzajob:client:OpenCuboard', function()
+    local Player = QBCore.Functions.GetPlayerData()
+    local jobDuty = Player.job.onduty
+    if not jobDuty then
+        QBCore.Functions.Notify('You are not clocked in!', 'error', 3000)
+    else
+        TriggerServerEvent("inventory:server:OpenInventory", "shop", "CuboardItems", Config.CuboardItems)
+    end
+end)
+
+RegisterNetEvent('sz-pizzajob:client:OpenColdDrink', function()
+    local Player = QBCore.Functions.GetPlayerData()
+    local jobDuty = Player.job.onduty
+    if not jobDuty then
+        QBCore.Functions.Notify('You are not clocked in!', 'error', 3000)
+    else
+        TriggerServerEvent("inventory:server:OpenInventory", "shop", "ColdDrinks", Config.ColdDrinks)
     end
 end)
 

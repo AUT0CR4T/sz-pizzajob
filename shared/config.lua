@@ -10,10 +10,8 @@ Config.FridgeItems = {
     slots = 20,
     items = {
         [1] = {name = 'butter', price = 0, amount = 50, info = {}, type = 'item', slot = 1},
-        [2] = {name = 'flour', price = 0, amount = 50, info = {}, type = 'item', slot = 2},
-        [3] = {name = 'milk', price = 0, amount = 50, info = {}, type = 'item', slot = 3},
-        [4] = {name = 'salt', price = 0, amount = 50, info = {}, type = 'item', slot = 4},
-        [5] = {name = 'tomatosauce', price = 0, amount = 50, info = {}, type = 'item', slot = 5}
+        [2] = {name = 'milk', price = 0, amount = 50, info = {}, type = 'item', slot = 2},
+        [3] = {name = 'tomatosauce', price = 0, amount = 50, info = {}, type = 'item', slot = 3}
     }
 }
 
@@ -24,5 +22,23 @@ Config.StaffFridgeItems = {
         [1] = {name = 'water_bottle', price = 0, amount = 50, info = {}, type = 'item', slot = 1},
         [2] = {name = 'tosti', price = 0, amount = 50, info = {}, type = 'item', slot = 2},
         [3] = {name = 'kurkakola', price = 0, amount = 50, info = {}, type = 'item', slot = 3}
+    }
+}
+
+Config.CuboardItems = {
+    label = 'Cuboard',
+    slots = 20,
+    items = {
+        [1] = {name = 'salt', price = 0, amount = 50, info = {}, type = 'item', slot = 1},
+        [2] = {name = 'flour', price = 0, amount = 50, info = {}, type = 'item', slot = 2}
+    }
+}
+
+Config.ColdDrinks = {
+    label = 'Cold Drinks',
+    slots = 20,
+    items = {
+        [1] = {name = 'kurkakola', price = 0, amount = 50, info = {}, type = 'item', slot = 1}
+
     }
 }
