@@ -495,7 +495,7 @@ exports['qb-target']:AddBoxZone('sz-pizzajob:storage', vector3(802.74, -757.04, 
             action = function(entity) -- This is the action it has to perform, this REPLACES the event and this is OPTIONAL
                 if IsPedAPlayer(entity) then return false end -- This will return false if the entity interacted with is a player and otherwise returns true
                 TriggerEvent("inventory:client:SetCurrentStash", "PizzaThisStorage")
-                TriggerServerEvent("inventory:server:OpenInventory", "stash", "PizzaThisStorage", {maxweight = 1000000, slots = 50})
+                TriggerServerEvent("inventory:server:OpenInventory", "stash", "PizzaThisStorage", {maxweight = 1000000, slots = 100})
               end,
               canInteract = function(entity, distance, data) -- This will check if you can interact with it, this won't show up if it returns false, this is OPTIONAL
                 if IsPedAPlayer(entity) then return false end -- This will return false if the entity interacted with is a player and otherwise returns true
