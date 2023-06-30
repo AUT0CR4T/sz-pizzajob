@@ -16,8 +16,7 @@ server_scripts {
 dependencies {
     'qb-target',
     'qb-menu',
-    'jim-payments',
-    'rpemotes'
+    'jim-payments'
 }
 
 shared_scripts {
