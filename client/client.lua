@@ -360,9 +360,9 @@ exports['qb-target']:AddBoxZone('sz-pizzajob:makewine', vector3(813.99, -749.35,
     distance = 1.3,
 })
 
--- Cuboard
-exports['qb-target']:AddBoxZone('sz-pizzajob:cuboard', vector3(806.04, -764.87, 26.78), 1.4, 0.2, {
-    name = 'sz-pizzajob:cuboard',
+-- Cupboard
+exports['qb-target']:AddBoxZone('sz-pizzajob:cupboard', vector3(806.04, -764.87, 26.78), 1.4, 0.2, {
+    name = 'sz-pizzajob:cupboard',
     heading = 0,
     debugPoly = Config.Debug,
     minZ = 25.68,
@@ -372,9 +372,9 @@ exports['qb-target']:AddBoxZone('sz-pizzajob:cuboard', vector3(806.04, -764.87, 
         {
             num = 1,
             type = 'client',
-            event = 'sz-pizzajob:client:OpenCuboard',
+            event = 'sz-pizzajob:client:OpenCupboard',
             icon = 'fas fa-door-open',
-            label = 'Open Cuboard',
+            label = 'Open Cupboard',
             job = 'pizzathis',
             drawColor = {255, 255, 255, 255},
             successDrawColor = {30, 144, 255, 255},
@@ -481,7 +481,6 @@ RegisterNetEvent('sz-pizzajob:client:makedough', function()
     end
 end)
 
--- Make Wine
 RegisterNetEvent('sz-pizzajob:client:makewine', function()
     local Player = QBCore.Functions.GetPlayerData()
     local jobDuty = Player.job.onduty
@@ -505,7 +504,6 @@ RegisterNetEvent('sz-pizzajob:client:makewine', function()
     end
 end)
 
--- Make Pizza Base
 RegisterNetEvent('sz-pizzajob:client:makepizzabasemenu', function()
     local Player = QBCore.Functions.GetPlayerData()
     local jobDuty = Player.job.onduty
@@ -604,7 +602,7 @@ RegisterNetEvent('sz-pizzajob:client:OpenFridge', function()
     end
 end)
 
-RegisterNetEvent('sz-pizzajob:client:OpenCuboard', function()
+RegisterNetEvent('sz-pizzajob:client:OpenCupboard', function()
     local Player = QBCore.Functions.GetPlayerData()
     local jobDuty = Player.job.onduty
     if not jobDuty then

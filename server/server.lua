@@ -2,7 +2,6 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 local mixerInUse = false -- DO NOT CHANGE THIS
 
-
 -- Events
 RegisterNetEvent('sz-pizzajob:server:makedough', function(data)
     local src = source

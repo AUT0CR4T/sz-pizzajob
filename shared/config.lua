@@ -27,8 +27,8 @@ Config.StaffFridgeItems = {
     }
 }
 
-Config.CuboardItems = {
-    label = 'Cuboard',
+Config.CupboardItems = {
+    label = 'Cupboard',
     slots = 20,
     items = {
         [1] = {name = 'salt', price = 0, amount = 50, info = {}, type = 'item', slot = 1},
