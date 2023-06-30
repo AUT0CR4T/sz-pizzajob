@@ -12,6 +12,15 @@ local function hasItems(items)
     return false
 end
 
+local blip = AddBlipForCoord(805.11, -751.4)
+SetBlipSprite(blip, 267)
+SetBlipDisplay(blip, 6)
+SetBlipScale(blip, 0.7)
+SetBlipColour(blip, 1)
+BeginTextCommandSetBlipName('STRING')
+AddTextComponentString('PizzaThis')
+EndTextCommandSetBlipName(blip)
+
 function QBCore.Functions.Progressbar(name, label, duration, useWhileDead, canCancel, disableControls, animation, prop, propTwo, onFinish, onCancel) --not sure what this is here for unless youre trying to create a global progressbar
     exports['progressbar']:Progress({
         name = label:lower(),
