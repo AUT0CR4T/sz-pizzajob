@@ -2,6 +2,10 @@
 
 Pizza job for fhe Gabz Pizzeria MLO (QBCore)
 
+# Preview
+
+https://youtu.be/O1gYaq_yZTw
+
 # Dependencies
 
 qb-target https://github.com/qbcore-framework/qb-target
