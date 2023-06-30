@@ -459,6 +459,65 @@ exports['qb-target']:AddBoxZone('sz-pizzajob:till2', vector3(811.29, -750.66, 26
     distance = 1.5,
 })
 
+-- Tray
+exports['qb-target']:AddBoxZone('sz-pizzajob:tray', vector3(810.86, -752.29, 26.78), 1.8, 0.4, {
+    name = 'sz-pizzajob:tray',
+    heading = 0,
+    debugPoly = Config.Debug,
+    minZ = 26.98,
+    maxZ = 27.18,
+}, {
+    options = {
+        {
+            num = 1,
+            icon = 'fas fa-hand-holding',
+            label = 'Tray',
+            action = function(entity) -- This is the action it has to perform, this REPLACES the event and this is OPTIONAL
+                if IsPedAPlayer(entity) then return false end -- This will return false if the entity interacted with is a player and otherwise returns true
+                TriggerEvent("inventory:client:SetCurrentStash", "PizzaThis")
+                TriggerServerEvent("inventory:server:OpenInventory", "stash", "PizzaThis", {maxweight = 1000000, slots = 50})
+              end,
+              canInteract = function(entity, distance, data) -- This will check if you can interact with it, this won't show up if it returns false, this is OPTIONAL
+                if IsPedAPlayer(entity) then return false end -- This will return false if the entity interacted with is a player and otherwise returns true
+                return true
+              end,
+              drawColor = {255, 255, 255, 255}, 
+              successDrawColor = {30, 144, 255, 255},
+        }
+    },
+    distance = 1.3
+})
+
+-- Storage
+exports['qb-target']:AddBoxZone('sz-pizzajob:storage', vector3(802.74, -757.04, 26.78), 0.2, 3.8, {
+    name = 'sz-pizzajob:storage',
+    heading = 359,
+    debugPoly = Config.Debug,
+    minZ = 25.78,
+    maxZ = 27.88,
+}, {
+    options = {
+        {
+            num = 1,
+            icon = 'fas fa-box',
+            label = 'Storage',
+            action = function(entity) -- This is the action it has to perform, this REPLACES the event and this is OPTIONAL
+                if IsPedAPlayer(entity) then return false end -- This will return false if the entity interacted with is a player and otherwise returns true
+                TriggerEvent("inventory:client:SetCurrentStash", "PizzaThisStorage")
+                TriggerServerEvent("inventory:server:OpenInventory", "stash", "PizzaThisStorage", {maxweight = 1000000, slots = 100})
+              end,
+              canInteract = function(entity, distance, data) -- This will check if you can interact with it, this won't show up if it returns false, this is OPTIONAL
+                if IsPedAPlayer(entity) then return false end -- This will return false if the entity interacted with is a player and otherwise returns true
+                return true
+              end,
+              job = 'pizzathis',
+              drawColor = {255, 255, 255, 255}, 
+              successDrawColor = {30, 144, 255, 255},
+        }
+    },
+    distance = 1.3
+})
+
 -- Events
 -- Make Dough
 RegisterNetEvent('sz-pizzajob:client:makedough', function()
