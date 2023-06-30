@@ -608,7 +608,7 @@ RegisterNetEvent('sz-pizzajob:client:OpenCupboard', function()
     if not jobDuty then
         QBCore.Functions.Notify('You are not clocked in!', 'error', 3000)
     else
-        TriggerServerEvent("inventory:server:OpenInventory", "shop", "CuboardItems", Config.CuboardItems)
+        TriggerServerEvent("inventory:server:OpenInventory", "shop", "CuboardItems", Config.CupboardItems)
     end
 end)
 
