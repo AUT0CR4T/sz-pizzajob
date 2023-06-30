@@ -564,7 +564,7 @@ RegisterNetEvent('sz-pizzajob:client:washhands', function()
     end)
 end)
 
-RegisterNetEvent('sz-pizzajob:client:eat', function(item, label, duration, amount, emote)
+RegisterNetEvent('sz-pizzajob:client:eat', function(item, label, duration, newHunger, newThirst, emote)
     QBCore.Functions.Progressbar(item, label, duration, false, true, {
         TriggerEvent('animations:client:EmoteCommandStart', {emote}),
         disableMovement = false,
@@ -573,13 +573,13 @@ RegisterNetEvent('sz-pizzajob:client:eat', function(item, label, duration, amoun
     }, {}, {}, {}, function()
         TriggerEvent('animations:client:EmoteCommandStart', {"c"})
         TriggerServerEvent('sz-pizzajob:server:removeeatitem', item, 1)
-        TriggerServerEvent('sz-pizzajob:server:addHunger', amount)
+        TriggerServerEvent('sz-pizzajob:server:addMetaData', newHunger, newThirst)
     end, function ()
         TriggerEvent('animations:client:EmoteCommandStart', {"c"})
     end)
 end)
 
-RegisterNetEvent('sz-pizzajob:client:drink', function(item, label, duration, amount, emote)
+RegisterNetEvent('sz-pizzajob:client:drink', function(item, label, duration, newHunger, newThirst, emote)
     QBCore.Functions.Progressbar(item, label, duration, false, true, {
         TriggerEvent('animations:client:EmoteCommandStart', {emote}),
         disableMovement = false,
@@ -588,7 +588,7 @@ RegisterNetEvent('sz-pizzajob:client:drink', function(item, label, duration, amo
     }, {}, {}, {}, function()
         TriggerEvent('animations:client:EmoteCommandStart', {"c"})
         TriggerServerEvent('sz-pizzajob:server:removeeatitem', item, 1)
-        TriggerServerEvent('sz-pizzajob:server:addThirst', amount)
+        TriggerServerEvent('sz-pizzajob:server:addMetaData', newHunger, newThirst)
     end, function ()
         TriggerEvent('animations:client:EmoteCommandStart', {"c"})
     end)
